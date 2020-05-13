@@ -24,11 +24,19 @@ const formats = args.formats || args.f
 const sourceMap = args.sourcemap || args.s
 const commit = execa.sync('git', ['rev-parse', 'HEAD']).stdout.slice(0, 7)
 
+// console.log(args) //{ _: [] }
+// console.log(target) //vue
+// console.log(formats) //undefined
+// console.log(sourceMap) //undefined
+// console.log(commit) //15696ce
+
+// 执行  C:\Users\lebron\Desktop\vue-next\node_modules\rollup\dist\bin
 execa(
   'rollup',
   [
     '-wc',
     '--environment',
+    // `COMMIT:15696ce,TARGET:vue,FORMATS:global,SOURCE_MAP:true`
     [
       `COMMIT:${commit}`,
       `TARGET:${target}`,
