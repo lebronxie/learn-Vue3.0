@@ -125,6 +125,7 @@ function createReactiveObject(
   if (!canObserve(target)) {
     return target
   }
+  // debugger
   const observed = new Proxy(
     target,
     collectionTypes.has(target.constructor) ? collectionHandlers : baseHandlers

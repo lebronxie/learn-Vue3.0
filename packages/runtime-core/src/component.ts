@@ -318,12 +318,13 @@ export interface ComponentInternalInstance {
 const emptyAppContext = createAppContext()
 
 let uid = 0
-
+// 创建组件实例
 export function createComponentInstance(
   vnode: VNode,
   parent: ComponentInternalInstance | null,
   suspense: SuspenseBoundary | null
 ) {
+ // debugger
   // inherit parent app context - or - if root, adopt from root vnode
   const appContext =
     (parent ? parent.appContext : vnode.appContext) || emptyAppContext
@@ -384,6 +385,7 @@ export function createComponentInstance(
     ec: null,
     emit: null as any // to be set immediately
   }
+  // 创建了 当前组件的 instance
   if (__DEV__) {
     instance.ctx = createRenderContext(instance)
   } else {
@@ -428,7 +430,7 @@ export function setupComponent(
   const isStateful = shapeFlag & ShapeFlags.STATEFUL_COMPONENT
   initProps(instance, props, isStateful, isSSR)
   initSlots(instance, children)
-
+ // debugger
   const setupResult = isStateful
     ? setupStatefulComponent(instance, isSSR)
     : undefined
@@ -475,6 +477,7 @@ function setupStatefulComponent(
 
     currentInstance = instance
     pauseTracking()
+   // debugger
     const setupResult = callWithErrorHandling(
       setup,
       instance,
@@ -536,6 +539,7 @@ export function handleSetupResult(
       }`
     )
   }
+//  debugger
   finishComponentSetup(instance, isSSR)
 }
 

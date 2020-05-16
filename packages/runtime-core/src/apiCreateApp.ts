@@ -200,9 +200,11 @@ export function createAppAPI<HostElement>(
         context.directives[name] = directive
         return app
       },
-
+      // 真是的 mount #app
       mount(rootContainer: HostElement, isHydrate?: boolean): any {
         if (!isMounted) {
+         // debugger  // rootComponent 为 App 对象 这个案例中有 setup 和 components
+          // 创建 AppVNode TODO: 看如何创建组件虚拟Dom
           const vnode = createVNode(rootComponent as Component, rootProps)
           // store app context on the root VNode.
           // this will be set on the root instance on initial mount.
@@ -214,10 +216,10 @@ export function createAppAPI<HostElement>(
               render(cloneVNode(vnode), rootContainer)
             }
           }
-
           if (isHydrate && hydrate) {
             hydrate(vnode as VNode<Node, Element>, rootContainer as any)
           } else {
+           // debugger // 将VNode 渲染 到 #app 上面  
             render(vnode, rootContainer)
           }
           isMounted = true

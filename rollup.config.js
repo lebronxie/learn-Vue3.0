@@ -1,3 +1,5 @@
+console.log('我是第几个执行的:这里是--->rollup.config.js')
+
 import path from 'path'
 import ts from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
@@ -122,7 +124,6 @@ const outputConfigs = {
   }
 }
 // console.log(process.env)
-
 /*
 {
   ACLOCAL_PATH: 'C:\\Program Files\\Git\\mingw64\\share\\aclocal;C:\\Program Files\\Git\\usr\\share\\aclocal',
@@ -455,8 +456,9 @@ if (process.env.NODE_ENV === 'production') {
     }
   })
 }
-
+console.log('export default前')
 export default packageConfigs
+console.log('export default后')
 
 function createConfig(format, output, plugins = []) {
   if (!output) {
@@ -504,17 +506,17 @@ function createConfig(format, output, plugins = []) {
     isGlobalBuild || isBrowserESMBuild
       ? packageOptions.enableNonBrowserBranches
         ? // externalize postcss for @vue/compiler-sfc
-          // because @rollup/plugin-commonjs cannot bundle it properly
-          ['postcss']
+        // because @rollup/plugin-commonjs cannot bundle it properly
+        ['postcss']
         : // normal browser builds - non-browser only imports are tree-shaken,
-          // they are only listed here to suppress warnings.
-          ['source-map', '@babel/parser', 'estree-walker']
+        // they are only listed here to suppress warnings.
+        ['source-map', '@babel/parser', 'estree-walker']
       : // Node / esm-bundler builds. Externalize everything.
-        [
-          ...Object.keys(pkg.dependencies || {}),
-          ...Object.keys(pkg.peerDependencies || {}),
-          ...['path', 'url'] // for @vue/compiler-sfc
-        ]
+      [
+        ...Object.keys(pkg.dependencies || {}),
+        ...Object.keys(pkg.peerDependencies || {}),
+        ...['path', 'url'] // for @vue/compiler-sfc
+      ]
 
   // the browser builds of @vue/compiler-sfc requires postcss to be available
   // as a global (e.g. http://wzrd.in/standalone/postcss)
@@ -525,15 +527,15 @@ function createConfig(format, output, plugins = []) {
   const nodePlugins =
     packageOptions.enableNonBrowserBranches && format !== 'cjs'
       ? [
-          require('@rollup/plugin-node-resolve')({
-            preferBuiltins: true
-          }),
-          require('@rollup/plugin-commonjs')({
-            sourceMap: false
-          }),
-          require('rollup-plugin-node-builtins')(),
-          require('rollup-plugin-node-globals')()
-        ]
+        require('@rollup/plugin-node-resolve')({
+          preferBuiltins: true
+        }),
+        require('@rollup/plugin-commonjs')({
+          sourceMap: false
+        }),
+        require('rollup-plugin-node-builtins')(),
+        require('rollup-plugin-node-globals')()
+      ]
       : []
 
   return {
@@ -552,7 +554,7 @@ function createConfig(format, output, plugins = []) {
         isBrowserESMBuild,
         // isBrowserBuild?
         (isGlobalBuild || isBrowserESMBuild || isBundlerESMBuild) &&
-          !packageOptions.enableNonBrowserBranches,
+        !packageOptions.enableNonBrowserBranches,
         isGlobalBuild,
         isNodeBuild
       ),
@@ -584,9 +586,9 @@ function createReplacePlugin(
     __VERSION__: `"${masterVersion}"`,
     __DEV__: isBundlerESMBuild
       ? // preserve to be handled by bundlers
-        `(process.env.NODE_ENV !== 'production')`
+      `(process.env.NODE_ENV !== 'production')`
       : // hard coded dev/prod builds
-        !isProduction,
+      !isProduction,
     // this is only used during Vue's internal tests
     __TEST__: false,
     // If the build is expected to run directly in the browser (global / esm builds)
@@ -600,11 +602,11 @@ function createReplacePlugin(
     __FEATURE_SUSPENSE__: true,
     ...(isProduction && isBrowserBuild
       ? {
-          'context.onError(': `/*#__PURE__*/ context.onError(`,
-          'emitError(': `/*#__PURE__*/ emitError(`,
-          'createCompilerError(': `/*#__PURE__*/ createCompilerError(`,
-          'createDOMCompilerError(': `/*#__PURE__*/ createDOMCompilerError(`
-        }
+        'context.onError(': `/*#__PURE__*/ context.onError(`,
+        'emitError(': `/*#__PURE__*/ emitError(`,
+        'createCompilerError(': `/*#__PURE__*/ createCompilerError(`,
+        'createDOMCompilerError(': `/*#__PURE__*/ createDOMCompilerError(`
+      }
       : {})
   }
   // allow inline overrides like

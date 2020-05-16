@@ -53,13 +53,15 @@ export const hydrate = ((...args) => {
   ensureHydrationRenderer().hydrate(...args)
 }) as RootHydrateFunction
 
+// createApp 入口函数 执行完 App 初始化成功  等着 mount
 export const createApp = ((...args) => {
+  // console.log(ensureRenderer()) app 组件
   const app = ensureRenderer().createApp(...args)
 
   if (__DEV__) {
     injectNativeTagCheck(app)
   }
-
+  // 拿去先定义的mount 方法 
   const { mount } = app
   app.mount = (containerOrSelector: Element | string): any => {
     const container = normalizeContainer(containerOrSelector)
@@ -70,6 +72,8 @@ export const createApp = ((...args) => {
     }
     // clear content before mounting
     container.innerHTML = ''
+    //  app.mount 的时候 在 执行 先定义的mount
+    // debugger
     const proxy = mount(container)
     container.removeAttribute('v-cloak')
     return proxy

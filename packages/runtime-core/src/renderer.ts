@@ -83,7 +83,7 @@ export type RootRenderFunction<HostElement = RendererElement> = (
 export interface RendererOptions<
   HostNode = RendererNode,
   HostElement = RendererElement
-> {
+  > {
   patchProp(
     el: HostElement,
     key: string,
@@ -128,7 +128,7 @@ export interface RendererNode {
   [key: string]: any
 }
 
-export interface RendererElement extends RendererNode {}
+export interface RendererElement extends RendererNode { }
 
 // An object exposing the internals of a renderer, passed to tree-shakeable
 // features so that they can be decoupled from this file. Keys are shortened
@@ -136,7 +136,7 @@ export interface RendererElement extends RendererNode {}
 export interface RendererInternals<
   HostNode = RendererNode,
   HostElement = RendererElement
-> {
+  > {
   p: PatchFn
   um: UnmountFn
   r: RemoveFn
@@ -320,6 +320,7 @@ function baseCreateRenderer(
   options: RendererOptions,
   createHydrationFns?: typeof createHydrationFunctions
 ): any {
+
   const {
     insert: hostInsert,
     remove: hostRemove,
@@ -349,6 +350,7 @@ function baseCreateRenderer(
     isSVG = false,
     optimized = false
   ) => {
+    //  debugger
     // patching & not same type, unmount old tree
     if (n1 && !isSameVNodeType(n1, n2)) {
       anchor = getNextHostNode(n1)
@@ -405,6 +407,7 @@ function baseCreateRenderer(
             optimized
           )
         } else if (shapeFlag & ShapeFlags.COMPONENT) {
+          //debugger
           processComponent(
             n1,
             n2,
@@ -416,7 +419,7 @@ function baseCreateRenderer(
             optimized
           )
         } else if (shapeFlag & ShapeFlags.TELEPORT) {
-          ;(type as typeof TeleportImpl).process(
+          ; (type as typeof TeleportImpl).process(
             n1,
             n2,
             container,
@@ -428,7 +431,7 @@ function baseCreateRenderer(
             internals
           )
         } else if (__FEATURE_SUSPENSE__ && shapeFlag & ShapeFlags.SUSPENSE) {
-          ;(type as typeof SuspenseImpl).process(
+          ; (type as typeof SuspenseImpl).process(
             n1,
             n2,
             container,
@@ -812,15 +815,15 @@ function baseCreateRenderer(
         // - In the case of a Fragment, we need to provide the actual parent
         // of the Fragment itself so it can move its children.
         oldVNode.type === Fragment ||
-        // - In the case of different nodes, there is going to be a replacement
-        // which also requires the correct parent container
-        !isSameVNodeType(oldVNode, newVNode) ||
-        // - In the case of a component, it could contain anything.
-        oldVNode.shapeFlag & ShapeFlags.COMPONENT
+          // - In the case of different nodes, there is going to be a replacement
+          // which also requires the correct parent container
+          !isSameVNodeType(oldVNode, newVNode) ||
+          // - In the case of a component, it could contain anything.
+          oldVNode.shapeFlag & ShapeFlags.COMPONENT
           ? hostParentNode(oldVNode.el!)!
           : // In other cases, the parent container is not actually used so we
-            // just pass the block element here to avoid a DOM parentNode call.
-            fallbackContainer
+          // just pass the block element here to avoid a DOM parentNode call.
+          fallbackContainer
       patch(
         oldVNode,
         newVNode,
@@ -972,7 +975,7 @@ function baseCreateRenderer(
   ) => {
     if (n1 == null) {
       if (n2.shapeFlag & ShapeFlags.COMPONENT_KEPT_ALIVE) {
-        ;(parentComponent!.ctx as KeepAliveContext).activate(
+        ; (parentComponent!.ctx as KeepAliveContext).activate(
           n2,
           container,
           anchor,
@@ -980,6 +983,7 @@ function baseCreateRenderer(
           optimized
         )
       } else {
+        // debugger
         mountComponent(
           n2,
           container,
@@ -1004,6 +1008,7 @@ function baseCreateRenderer(
     isSVG,
     optimized
   ) => {
+    // debugger
     const instance: ComponentInternalInstance = (initialVNode.component = createComponentInstance(
       initialVNode,
       parentComponent,
@@ -1021,13 +1026,14 @@ function baseCreateRenderer(
 
     // inject renderer internals for keepAlive
     if (isKeepAlive(initialVNode)) {
-      ;(instance.ctx as KeepAliveContext).renderer = internals
+      ; (instance.ctx as KeepAliveContext).renderer = internals
     }
 
     // resolve props and slots for setup context
     if (__DEV__) {
       startMeasure(instance, `init`)
     }
+    // debugger
     setupComponent(instance)
     if (__DEV__) {
       endMeasure(instance, `init`)
@@ -1679,7 +1685,7 @@ function baseCreateRenderer(
     }
 
     if (shapeFlag & ShapeFlags.TELEPORT) {
-      ;(type as typeof TeleportImpl).move(vnode, container, anchor, internals)
+      ; (type as typeof TeleportImpl).move(vnode, container, anchor, internals)
       return
     }
 
@@ -1753,7 +1759,7 @@ function baseCreateRenderer(
 
     if (shapeFlag & ShapeFlags.COMPONENT) {
       if (shouldKeepAlive) {
-        ;(parentComponent!.ctx as KeepAliveContext).deactivate(vnode)
+        ; (parentComponent!.ctx as KeepAliveContext).deactivate(vnode)
       } else {
         unmountComponent(vnode.component!, parentSuspense, doRemove)
       }
@@ -1781,7 +1787,7 @@ function baseCreateRenderer(
 
       // an unmounted teleport should always remove its children
       if (shapeFlag & ShapeFlags.TELEPORT) {
-        ;(vnode.type as typeof TeleportImpl).remove(vnode, internals)
+        ; (vnode.type as typeof TeleportImpl).remove(vnode, internals)
       }
 
       if (doRemove) {
@@ -1935,7 +1941,7 @@ function baseCreateRenderer(
     if (__DEV__ && !owner) {
       warn(
         `Missing ref owner context. ref cannot be used on hoisted vnodes. ` +
-          `A vnode with ref must be created inside the render function.`
+        `A vnode with ref must be created inside the render function.`
       )
       return
     }
@@ -1998,7 +2004,7 @@ function baseCreateRenderer(
       }
     }
   }
-
+  // render 函数 RootRenderFunction  
   const render: RootRenderFunction = (vnode, container) => {
     if (vnode == null) {
       if (container._vnode) {
@@ -2032,10 +2038,157 @@ function baseCreateRenderer(
       Element
     >)
   }
-
   return {
     render,
     hydrate,
+    /*
+ function createApp(rootComponent, rootProps = null) {
+    if (rootProps != null && !isObject(rootProps)) {
+      __DEV__ && warn(`root props passed to app.mount() must be an object.`)
+      rootProps = null
+    }
+
+    const context = createAppContext()
+    const installedPlugins = new Set()
+
+    let isMounted = false
+
+    const app: App = {
+      _component: rootComponent as Component,
+      _props: rootProps,
+      _container: null,
+      _context: context,
+
+      get config() {
+        return context.config
+      },
+
+      set config(v) {
+        if (__DEV__) {
+          warn(
+            `app.config cannot be replaced. Modify individual options instead.`
+          )
+        }
+      },
+
+      use(plugin: Plugin, ...options: any[]) {
+        if (installedPlugins.has(plugin)) {
+          __DEV__ && warn(`Plugin has already been applied to target app.`)
+        } else if (plugin && isFunction(plugin.install)) {
+          installedPlugins.add(plugin)
+          plugin.install(app, ...options)
+        } else if (isFunction(plugin)) {
+          installedPlugins.add(plugin)
+          plugin(app, ...options)
+        } else if (__DEV__) {
+          warn(
+            `A plugin must either be a function or an object with an "install" ` +
+              `function.`
+          )
+        }
+        return app
+      },
+
+      mixin(mixin: ComponentOptions) {
+        if (__FEATURE_OPTIONS__) {
+          if (!context.mixins.includes(mixin)) {
+            context.mixins.push(mixin)
+          } else if (__DEV__) {
+            warn(
+              'Mixin has already been applied to target app' +
+                (mixin.name ? `: ${mixin.name}` : '')
+            )
+          }
+        } else if (__DEV__) {
+          warn('Mixins are only available in builds supporting Options API')
+        }
+        return app
+      },
+
+      component(name: string, component?: PublicAPIComponent): any {
+        if (__DEV__) {
+          validateComponentName(name, context.config)
+        }
+        if (!component) {
+          return context.components[name]
+        }
+        if (__DEV__ && context.components[name]) {
+          warn(`Component "${name}" has already been registered in target app.`)
+        }
+        context.components[name] = component
+        return app
+      },
+
+      directive(name: string, directive?: Directive) {
+        if (__DEV__) {
+          validateDirectiveName(name)
+        }
+
+        if (!directive) {
+          return context.directives[name] as any
+        }
+        if (__DEV__ && context.directives[name]) {
+          warn(`Directive "${name}" has already been registered in target app.`)
+        }
+        context.directives[name] = directive
+        return app
+      },
+
+      mount(rootContainer: HostElement, isHydrate?: boolean): any {
+        if (!isMounted) {
+          const vnode = createVNode(rootComponent as Component, rootProps)
+          // store app context on the root VNode.
+          // this will be set on the root instance on initial mount.
+          vnode.appContext = context
+
+          // HMR root reload
+          if (__DEV__) {
+            context.reload = () => {
+              render(cloneVNode(vnode), rootContainer)
+            }
+          }
+
+          if (isHydrate && hydrate) {
+            hydrate(vnode as VNode<Node, Element>, rootContainer as any)
+          } else {
+            render(vnode, rootContainer)
+          }
+          isMounted = true
+          app._container = rootContainer
+          return vnode.component!.proxy
+        } else if (__DEV__) {
+          warn(
+            `App has already been mounted. Create a new app instance instead.`
+          )
+        }
+      },
+
+      unmount() {
+        if (isMounted) {
+          render(null, app._container)
+        } else if (__DEV__) {
+          warn(`Cannot unmount an app that is not mounted.`)
+        }
+      },
+
+      provide(key, value) {
+        if (__DEV__ && key in context.provides) {
+          warn(
+            `App already provides property with key "${String(key)}". ` +
+              `It will be overwritten with the new value.`
+          )
+        }
+        // TypeScript doesn't allow symbols as index type
+        // https://github.com/Microsoft/TypeScript/issues/24587
+        context.provides[key as string] = value
+
+        return app
+      }
+    }
+
+    return app
+  }
+    */
     createApp: createAppAPI(render, hydrate)
   }
 }

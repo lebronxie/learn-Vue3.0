@@ -35,6 +35,7 @@ const arrayInstrumentations: Record<string, Function> = {}
 
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target: object, key: string | symbol, receiver: object) {
+    debugger
     if (key === ReactiveFlags.isReactive) {
       return !isReadonly
     } else if (key === ReactiveFlags.isReadonly) {

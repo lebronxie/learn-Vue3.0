@@ -35,7 +35,7 @@ export const nodeOps: Omit<RendererOptions<Node, Element>, 'patchProp'> = {
   setText: (node, text) => {
     node.nodeValue = text
   },
-
+  // 设置 element 文本
   setElementText: (el, text) => {
     el.textContent = text
   },
@@ -61,7 +61,7 @@ export const nodeOps: Omit<RendererOptions<Node, Element>, 'patchProp'> = {
   insertStaticContent(content, parent, anchor, isSVG) {
     const temp = isSVG
       ? tempSVGContainer ||
-        (tempSVGContainer = doc.createElementNS(svgNS, 'svg'))
+      (tempSVGContainer = doc.createElementNS(svgNS, 'svg'))
       : tempContainer || (tempContainer = doc.createElement('div'))
     temp.innerHTML = content
     const node = temp.children[0]

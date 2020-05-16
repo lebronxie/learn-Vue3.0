@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1 @click='handleChangeName' v-if='state.isShow'> {{state.name}}我是自带文字</h1>
+    <button @click='handleShow'>{{state.name}} </button>
+  </div>
+  <script src='../../dist/vue.global.js'></script>
+
+  <script>
+    const App = {
+      setup() {
+        const state = Vue.reactive({
+          name: 'lebron',
+          isShow: false
+        })
+        const handleChangeName = () => {
+          // debugger
+          state.name = 'Xie'
+        }
+
+        const handleShow = () => {
+          // debugger
+          state.isShow = !state.isShow
+        }
+
+        return {
+          state,
+          handleChangeName,
+          handleShow
+        }
+      },
+    }
+    Vue.createApp(App).mount("#app")
+  </script>
+</body>
+
+</html>

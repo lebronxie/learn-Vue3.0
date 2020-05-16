@@ -15,6 +15,7 @@ yarn dev core --formats cjs
 __DEV__=false yarn dev
 ```
 */
+console.log('我是第几个执行的： 这里是---> npm run dev')
 
 const execa = require('execa')
 const { fuzzyMatchTarget } = require('./utils')
@@ -36,7 +37,7 @@ execa(
   [
     '-wc',
     '--environment',
-    // `COMMIT:15696ce,TARGET:vue,FORMATS:global,SOURCE_MAP:true`
+    // npm run dev 的时候 `COMMIT:15696ce,TARGET:vue,FORMATS:global,SOURCE_MAP:true`
     [
       `COMMIT:${commit}`,
       `TARGET:${target}`,
