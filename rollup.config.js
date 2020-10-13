@@ -465,6 +465,7 @@ function createConfig(format, output, plugins = []) {
     console.log(require('chalk').yellow(`invalid format: "${format}"`))
     process.exit(1)
   }
+  // output.sourcemap = true
 
   output.sourcemap = !!process.env.SOURCE_MAP
   output.externalLiveBindings = false
@@ -501,7 +502,6 @@ function createConfig(format, output, plugins = []) {
   hasTSChecked = true
 
   const entryFile = /runtime$/.test(format) ? `src/runtime.ts` : `src/index.ts`
-
   const external =
     isGlobalBuild || isBrowserESMBuild
       ? packageOptions.enableNonBrowserBranches

@@ -61,7 +61,7 @@ export const createApp = ((...args) => {
   if (__DEV__) {
     injectNativeTagCheck(app)
   }
-  // 拿去先定义的mount 方法 
+  // 拿去先定义的mount 方法
   const { mount } = app
   app.mount = (containerOrSelector: Element | string): any => {
     const container = normalizeContainer(containerOrSelector)

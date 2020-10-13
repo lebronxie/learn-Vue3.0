@@ -324,7 +324,7 @@ export function createComponentInstance(
   parent: ComponentInternalInstance | null,
   suspense: SuspenseBoundary | null
 ) {
- // debugger
+  // debugger
   // inherit parent app context - or - if root, adopt from root vnode
   const appContext =
     (parent ? parent.appContext : vnode.appContext) || emptyAppContext
@@ -430,7 +430,7 @@ export function setupComponent(
   const isStateful = shapeFlag & ShapeFlags.STATEFUL_COMPONENT
   initProps(instance, props, isStateful, isSSR)
   initSlots(instance, children)
- // debugger
+  // debugger
   const setupResult = isStateful
     ? setupStatefulComponent(instance, isSSR)
     : undefined
@@ -477,7 +477,7 @@ function setupStatefulComponent(
 
     currentInstance = instance
     pauseTracking()
-   // debugger
+    // debugger
     const setupResult = callWithErrorHandling(
       setup,
       instance,
@@ -539,7 +539,7 @@ export function handleSetupResult(
       }`
     )
   }
-//  debugger
+  //  debugger
   finishComponentSetup(instance, isSSR)
 }
 

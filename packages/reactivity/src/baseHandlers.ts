@@ -35,7 +35,7 @@ const arrayInstrumentations: Record<string, Function> = {}
 
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target: object, key: string | symbol, receiver: object) {
-    debugger
+    // debugger
     if (key === ReactiveFlags.isReactive) {
       return !isReadonly
     } else if (key === ReactiveFlags.isReadonly) {
@@ -50,7 +50,7 @@ function createGetter(isReadonly = false, shallow = false) {
     }
     const res = Reflect.get(target, key, receiver)
 
-    if (isSymbol(key) && builtInSymbols.has(key) || key === '__proto__') {
+    if ((isSymbol(key) && builtInSymbols.has(key)) || key === '__proto__') {
       return res
     }
 

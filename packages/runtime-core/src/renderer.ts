@@ -83,7 +83,7 @@ export type RootRenderFunction<HostElement = RendererElement> = (
 export interface RendererOptions<
   HostNode = RendererNode,
   HostElement = RendererElement
-  > {
+> {
   patchProp(
     el: HostElement,
     key: string,
@@ -128,7 +128,7 @@ export interface RendererNode {
   [key: string]: any
 }
 
-export interface RendererElement extends RendererNode { }
+export interface RendererElement extends RendererNode {}
 
 // An object exposing the internals of a renderer, passed to tree-shakeable
 // features so that they can be decoupled from this file. Keys are shortened
@@ -136,7 +136,7 @@ export interface RendererElement extends RendererNode { }
 export interface RendererInternals<
   HostNode = RendererNode,
   HostElement = RendererElement
-  > {
+> {
   p: PatchFn
   um: UnmountFn
   r: RemoveFn
@@ -320,7 +320,6 @@ function baseCreateRenderer(
   options: RendererOptions,
   createHydrationFns?: typeof createHydrationFunctions
 ): any {
-
   const {
     insert: hostInsert,
     remove: hostRemove,
@@ -419,7 +418,7 @@ function baseCreateRenderer(
             optimized
           )
         } else if (shapeFlag & ShapeFlags.TELEPORT) {
-          ; (type as typeof TeleportImpl).process(
+          ;(type as typeof TeleportImpl).process(
             n1,
             n2,
             container,
@@ -431,7 +430,7 @@ function baseCreateRenderer(
             internals
           )
         } else if (__FEATURE_SUSPENSE__ && shapeFlag & ShapeFlags.SUSPENSE) {
-          ; (type as typeof SuspenseImpl).process(
+          ;(type as typeof SuspenseImpl).process(
             n1,
             n2,
             container,
@@ -815,15 +814,15 @@ function baseCreateRenderer(
         // - In the case of a Fragment, we need to provide the actual parent
         // of the Fragment itself so it can move its children.
         oldVNode.type === Fragment ||
-          // - In the case of different nodes, there is going to be a replacement
-          // which also requires the correct parent container
-          !isSameVNodeType(oldVNode, newVNode) ||
-          // - In the case of a component, it could contain anything.
-          oldVNode.shapeFlag & ShapeFlags.COMPONENT
+        // - In the case of different nodes, there is going to be a replacement
+        // which also requires the correct parent container
+        !isSameVNodeType(oldVNode, newVNode) ||
+        // - In the case of a component, it could contain anything.
+        oldVNode.shapeFlag & ShapeFlags.COMPONENT
           ? hostParentNode(oldVNode.el!)!
           : // In other cases, the parent container is not actually used so we
-          // just pass the block element here to avoid a DOM parentNode call.
-          fallbackContainer
+            // just pass the block element here to avoid a DOM parentNode call.
+            fallbackContainer
       patch(
         oldVNode,
         newVNode,
@@ -975,7 +974,7 @@ function baseCreateRenderer(
   ) => {
     if (n1 == null) {
       if (n2.shapeFlag & ShapeFlags.COMPONENT_KEPT_ALIVE) {
-        ; (parentComponent!.ctx as KeepAliveContext).activate(
+        ;(parentComponent!.ctx as KeepAliveContext).activate(
           n2,
           container,
           anchor,
@@ -1026,7 +1025,7 @@ function baseCreateRenderer(
 
     // inject renderer internals for keepAlive
     if (isKeepAlive(initialVNode)) {
-      ; (instance.ctx as KeepAliveContext).renderer = internals
+      ;(instance.ctx as KeepAliveContext).renderer = internals
     }
 
     // resolve props and slots for setup context
@@ -1685,7 +1684,7 @@ function baseCreateRenderer(
     }
 
     if (shapeFlag & ShapeFlags.TELEPORT) {
-      ; (type as typeof TeleportImpl).move(vnode, container, anchor, internals)
+      ;(type as typeof TeleportImpl).move(vnode, container, anchor, internals)
       return
     }
 
@@ -1759,7 +1758,7 @@ function baseCreateRenderer(
 
     if (shapeFlag & ShapeFlags.COMPONENT) {
       if (shouldKeepAlive) {
-        ; (parentComponent!.ctx as KeepAliveContext).deactivate(vnode)
+        ;(parentComponent!.ctx as KeepAliveContext).deactivate(vnode)
       } else {
         unmountComponent(vnode.component!, parentSuspense, doRemove)
       }
@@ -1787,7 +1786,7 @@ function baseCreateRenderer(
 
       // an unmounted teleport should always remove its children
       if (shapeFlag & ShapeFlags.TELEPORT) {
-        ; (vnode.type as typeof TeleportImpl).remove(vnode, internals)
+        ;(vnode.type as typeof TeleportImpl).remove(vnode, internals)
       }
 
       if (doRemove) {
@@ -1941,7 +1940,7 @@ function baseCreateRenderer(
     if (__DEV__ && !owner) {
       warn(
         `Missing ref owner context. ref cannot be used on hoisted vnodes. ` +
-        `A vnode with ref must be created inside the render function.`
+          `A vnode with ref must be created inside the render function.`
       )
       return
     }
@@ -2004,7 +2003,7 @@ function baseCreateRenderer(
       }
     }
   }
-  // render 函数 RootRenderFunction  
+  // render 函数 RootRenderFunction
   const render: RootRenderFunction = (vnode, container) => {
     if (vnode == null) {
       if (container._vnode) {

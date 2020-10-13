@@ -13,10 +13,10 @@
     <button @click='handleShow'>{{state.name}} </button>
   </div>
   <script src='../../dist/vue.global.js'></script>
-
   <script>
     const App = {
       setup() {
+        // debugger
         const state = Vue.reactive({
           name: 'lebron',
           isShow: false
@@ -25,7 +25,6 @@
           // debugger
           state.name = 'Xie'
         }
-
         const handleShow = () => {
           // debugger
           state.isShow = !state.isShow
